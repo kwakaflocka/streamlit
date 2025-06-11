@@ -26,15 +26,16 @@ def load_data(ticker):
 
 data1 = load_data(asset1)
 data2 = load_data(asset2) if asset2 else None
+data1_xs = data1.xs('BTC-USD', level=1, axis=1)
+data2_xs = data1.xs('ETH-USD', level=1, axis=1)
 
 # Merge data for correlation
 if not data1.empty and data2 is not None and not data2.empty:
-    combined = data1.join(data2, how="inner")
+    combined = data1_xs.join(data2_xs, how="inner")
     corr, p_value = pearsonr(combined[asset1], combined[asset2])
 
     st.subheader("🔗 Correlation Analysis")
     st.write(f"Correlation between **{asset1}** and **{asset2}**: r = {corr.item():.2f} (p = {p_value.item():.3f})")
-    print(combined.columns)
     combined = combined.reset_index()
     combined.columns = ['Date', 'BTC-USD', 'ETH-USD']
     st.line_chart(combined, y=['BTC-USD', 'ETH-USD'])
@@ -43,7 +44,6 @@ if not data1.empty and data2 is not None and not data2.empty:
 
 # # Plot individual asset performance
 col1, col2 = st.columns(2)
-data1_xs = data1.xs('BTC-USD', level=1, axis=1)
 with col1:
     if not data1.empty:
         st.subheader(f"📊 {asset1} Closing Prices")
