@@ -27,7 +27,7 @@ def load_data(ticker):
 data1 = load_data(asset1)
 data2 = load_data(asset2) if asset2 else None
 data1_xs = data1.xs('BTC-USD', level=1, axis=1)
-data2_xs = data1.xs('ETH-USD', level=1, axis=1)
+data2_xs = data2.xs('ETH-USD', level=1, axis=1)
 
 # Merge data for correlation
 if not data1.empty and data2 is not None and not data2.empty:
