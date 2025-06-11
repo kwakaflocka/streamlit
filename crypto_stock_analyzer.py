@@ -33,7 +33,7 @@ if not data1.empty and data2 is not None and not data2.empty:
     corr, p_value = pearsonr(combined[asset1], combined[asset2])
 
     st.subheader("🔗 Correlation Analysis")
-    st.write(f"Correlation between **{asset1}** and **{asset2}**: `r = {corr:.2f}` (p = {p_value:.3f})")
+    st.write(f"Correlation between **{asset1}** and **{asset2}**: r = {corr.item():.2f} (p = {p_value.item():.3f})")
 
     st.line_chart(combined)
 
